@@ -14,11 +14,14 @@ exports.createCourse = async (req, res) => {
       price,
       tag,
       category,
+      status,
+      instructions,
     } = req.body;
-    // get thumbnail
+
+    // get thumbnail image from request files
     const thumbnail = req.files.thumbnailImage;
 
-    // validation
+    // validation:- Check if any of the required fields are missing
     if (
       !courseName ||
       !courseDescription ||
@@ -34,9 +37,14 @@ exports.createCourse = async (req, res) => {
       });
     }
 
-    // check for instructor
+    if (!status || status === undefined) {
+      status = "Draft";
+    }
+    // Check if the user is an instructor
     const userId = req.user.id;
-    const instructorDetails = await User.findById(userId);
+    const instructorDetails = await User.findById(userId, {
+      accountType: "Instructor",
+    });
     console.log("Instructor Details ->>", instructorDetails);
     //TODO: verify that userId and instructorDetails._id is same or different
 
@@ -56,15 +64,15 @@ exports.createCourse = async (req, res) => {
       });
     }
 
-    // upload image to cloudinary
+    // upload Thumbnail image to cloudinary
     const thumbnailImage = await uploadImageToCloudinary(
       thumbnail,
       process.env.FOLDER_NAME
     );
+    console.log(thumbnailImage);
 
     //create an entry for new course in db
-
-    const newCourse = Course.create({
+    const newCourse = await Course.create({
       courseName: courseName,
       courseDescription: courseDescription,
       instructor: instructorDetails,
@@ -72,6 +80,9 @@ exports.createCourse = async (req, res) => {
       price: price,
       category: categoryDetail,
       thumbnail: thumbnailImage.secure_url,
+      tag: tag,
+      status: status,
+      instructions: instructions,
     });
 
     // add the new course to the user schema of Instructor
@@ -81,22 +92,21 @@ exports.createCourse = async (req, res) => {
       { new: true }
     );
 
-    // add course entry in tag schema
-    // TODO H/W
-
+    // Add the new course to the Categories
     await Category.findByIdAndUpdate(
-      { _id: categoryDetail._id },
+      { _id: category },
       { $push: { course: newCourse._id } },
       { new: true }
     );
 
-    // return response
+    // Return the new course and a success message
     return res.status(200).json({
       success: true,
       message: "Course Created Successfully",
       data: newCourse,
     });
   } catch (error) {
+    // Handle any errors that occur during the creation of the course
     return res.status(500).json({
       success: false,
       message: "Something went wrong, Failed to create course",
@@ -105,7 +115,7 @@ exports.createCourse = async (req, res) => {
   }
 };
 
-// getAllCourses Handler Function
+//! getAllCourses Handler Function
 exports.showAllCourses = async (req, res) => {
   try {
     // TODO: change the below statement incrementally
@@ -131,10 +141,17 @@ exports.showAllCourses = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
+    return res.status(404).json({
       success: false,
       message: "Cannot Fetch course data",
       error: error.message,
     });
   }
 };
+
+//TODO getCourseDetail ka handler function likhna hai sabkuchh populate karana hai with section subsection
+
+//TODO ratingAndReview me tin function likhne hai-
+//1:- createRating
+//2:- getAverageRating
+//3:- getAllRating
