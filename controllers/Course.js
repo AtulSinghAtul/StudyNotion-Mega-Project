@@ -116,7 +116,7 @@ exports.createCourse = async (req, res) => {
 };
 
 //! getAllCourses Handler Function
-exports.showAllCourses = async (req, res) => {
+exports.getAllCourses = async (req, res) => {
   try {
     // TODO: change the below statement incrementally
     const allCourses = await Course.find(
@@ -151,7 +151,43 @@ exports.showAllCourses = async (req, res) => {
 
 //TODO getCourseDetail ka handler function likhna hai sabkuchh populate karana hai with section subsection
 
-//TODO ratingAndReview me tin function likhne hai-
-//1:- createRating
-//2:- getAverageRating
-//3:- getAllRating
+exports.getCourseDetails = async (req, res) => {
+  try {
+    // get course id for getting course detailes
+    const { courseId } = req.body;
+
+    // get all course detailes
+    const courseDetailes = await Course.find({ id: courseId })
+      .populate({
+        path: "instructor",
+        populate: {
+          path: "additionalDetails",
+        },
+      })
+      .populate("ratingAndReviews")
+      .populate("category")
+      .populate("studentEnrolled")
+      .populate({ path: courseContent, populate: { path: subSection } });
+
+    //validation
+    if (!courseDetailes) {
+      return res.status(400).json({
+        success: false,
+        message: `Could not find the course with ${courseId}`,
+      });
+    }
+
+    // return response
+    return res.status(200).json({
+      success: true,
+      message: "Course detailes fetched successfully",
+      courseDetailes,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

@@ -37,7 +37,7 @@ exports.createCategory = async (req, res) => {
 };
 
 //! get all tags handler function
-exports.showAllCategory = async (req, res) => {
+exports.showAllCategories = async (req, res) => {
   try {
     const allCategory = await Category.find(
       {},
@@ -88,13 +88,16 @@ exports.categoryPageDetails = async (req, res) => {
     const selectedCourses = selectedCategory.courses;
 
     // Get courses for other categories
-    const categoriesExceptSelected = await Category.find({
+    const differentCategories = await Category.find({
       _id: { $ne: categoryId },
-    }).populate("courses");
-    let differentCourses = [];
-    for (const category of categoriesExceptSelected) {
-      differentCourses.push(...category.courses);
-    }
+    })
+      .populate("courses")
+      .exec();
+    console.log("differentCategories -->", differentCategories);
+    // let differentCourses = [];
+    // for (const category of categoriesExceptSelected) {
+    //   differentCourses.push(...category.courses);
+    // }
 
     // Get top-selling courses across all categories
     const allCategories = await Category.find().populate("courses");
@@ -104,9 +107,12 @@ exports.categoryPageDetails = async (req, res) => {
       .slice(0, 10);
 
     res.status(200).json({
-      selectedCourses: selectedCourses,
-      differentCourses: differentCourses,
-      mostSellingCourses: mostSellingCourses,
+      success: true,
+      data: {
+        selectedCourses: selectedCourses,
+        differentCourses: differentCourses,
+        mostSellingCourses: mostSellingCourses,
+      },
     });
   } catch (error) {
     return res.status(500).json({

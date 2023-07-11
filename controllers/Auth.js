@@ -11,7 +11,7 @@ require("dotenv").config();
 //! Send OTP For Email Verification
 // HW -> email valdation karo email sahi hai ya nhi
 
-exports.sendOTP = async (req, res) => {
+exports.sendotp = async (req, res) => {
   try {
     // fetch email from req body
     const email = req.body.email;
@@ -42,7 +42,7 @@ exports.sendOTP = async (req, res) => {
     let uniqueOtpResult = await OTP.findOne({ otp: otp });
     console.log("Result is Generate OTP Func");
     console.log("OTP", otp);
-    console.log("Result", result);
+    console.log("Result", uniqueOtpResult);
     // if get otp same then do generate otp continue till when not get unique otp
     while (uniqueOtpResult) {
       otp = otpGenerator.generate(6, {
@@ -80,7 +80,7 @@ exports.sendOTP = async (req, res) => {
 
 //! Signup Controller for Registering USers
 
-exports.signUp = async (req, res) => {
+exports.signup = async (req, res) => {
   try {
     // data fetch from req ki body
     const {
@@ -131,7 +131,7 @@ exports.signUp = async (req, res) => {
     const recentOtp = await OTP.find({ email })
       .sort({ createdAt: -1 })
       .limit(1);
-    console.log("recentOtp", recentOtp);
+    console.log("recentOtp-->>", recentOtp);
 
     // validate OTP
     if (recentOtp.length == 0) {
@@ -150,18 +150,20 @@ exports.signUp = async (req, res) => {
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    console.log("Auth 153 failed");
     // Create the user
     let approved = "";
     approved === "Instructor" ? (approved = false) : (approved = true);
 
+    console.log("Auth 158 failed");
     // Create the Additional Profile For User
     const profileDetails = await Profile.create({
-      gender: null,
-      dob: null,
-      about: null,
-      contactNumber: null,
+      gender: " ",
+      dob: " ",
+      about: " ",
+      contactNumber: " ",
     });
+    console.log("Auth 166 failed");
 
     const user = await User.create({
       firstName,
@@ -170,10 +172,10 @@ exports.signUp = async (req, res) => {
       password: hashedPassword,
       accountType,
       contactNumber,
-      additionalDetailes: profileDetails,
+      additionalDetails: profileDetails._id,
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
     });
-
+    console.log("Auth 178 failed");
     // return res
     return res.status(200).json({
       success: false,
@@ -185,6 +187,7 @@ exports.signUp = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "User cannot be registered. Please try again",
+      error: error.message,
     });
   }
 };

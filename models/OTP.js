@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const mailSender = require("../utils/mailSender");
+const emailTemplate = require("../mail/templates/emailVerificationTemplate");
 
 const OTPSchema = new mongoose.Schema({
   email: {
@@ -12,7 +14,7 @@ const OTPSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
-    expires: 5 * 60,
+    expires: 5 * 60, // The document will be automatically deleted after 5 minutes of its creation time
   },
 });
 
@@ -21,7 +23,7 @@ async function sendVerficationEmail(email, otp) {
     const mailResponse = await mailSender(
       email,
       "Varification Email from StudyNotion",
-      otp
+      emailTemplate(otp)
     );
   } catch (error) {
     console.log("error occured while sending mailes:", error);

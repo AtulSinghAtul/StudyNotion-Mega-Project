@@ -1,10 +1,10 @@
 const Section = require("../models/Section");
 const Course = require("../models/Course");
 
-//! create section
+//! CREATE a new section
 exports.createSection = async (req, res) => {
   try {
-    //fetch data
+    // Extract the required properties from the request body
     const { sectionName, courseId } = req.body;
 
     // validate data
@@ -15,12 +15,12 @@ exports.createSection = async (req, res) => {
       });
     }
 
-    //create section
+    // Create a new section with the given name
     const newSection = Section.create({
       sectionName,
     });
 
-    // update course with section objectId
+    // Add the new section to the course's content array
     const updatedCourseDetails = await Course.findByIdAndUpdate(
       { courseId },
       {
@@ -31,13 +31,20 @@ exports.createSection = async (req, res) => {
       {
         new: true,
       }
-    ).populate();
+    )
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+        },
+      })
+      .exec();
 
     // TODO:- H/W use populate to replace sections/subsections both in the updatedCourseDetails
 
     console.log("updatedCourseDetails ->>", updatedCourseDetails);
 
-    //return response
+    // Return the updated course object in the response
     return res.status(200).json({
       success: true,
       message: "Section created successfully",
@@ -52,8 +59,8 @@ exports.createSection = async (req, res) => {
   }
 };
 
-//! update section
-const updateSection = async (req, res) => {
+//! Update a section
+exports.updateSection = async (req, res) => {
   try {
     //data input
     const { sectionName, sectionId } = req.body;
