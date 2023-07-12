@@ -40,6 +40,7 @@ exports.createCourse = async (req, res) => {
     if (!status || status === undefined) {
       status = "Draft";
     }
+
     // Check if the user is an instructor
     const userId = req.user.id;
     const instructorDetails = await User.findById(userId, {
@@ -63,6 +64,7 @@ exports.createCourse = async (req, res) => {
         message: "Tag details not found",
       });
     }
+    console.log("categoryDetail----->>", categoryDetail);
 
     // upload Thumbnail image to cloudinary
     const thumbnailImage = await uploadImageToCloudinary(
@@ -95,7 +97,7 @@ exports.createCourse = async (req, res) => {
     // Add the new course to the Categories
     await Category.findByIdAndUpdate(
       { _id: category },
-      { $push: { course: newCourse._id } },
+      { $push: { courses: newCourse._id } },
       { new: true }
     );
 
@@ -107,6 +109,7 @@ exports.createCourse = async (req, res) => {
     });
   } catch (error) {
     // Handle any errors that occur during the creation of the course
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Something went wrong, Failed to create course",
@@ -157,7 +160,7 @@ exports.getCourseDetails = async (req, res) => {
     const { courseId } = req.body;
 
     // get all course detailes
-    const courseDetailes = await Course.find({ id: courseId })
+    const courseDetailes = await Course.find({ _id: courseId })
       .populate({
         path: "instructor",
         populate: {
@@ -167,7 +170,7 @@ exports.getCourseDetails = async (req, res) => {
       .populate("ratingAndReviews")
       .populate("category")
       .populate("studentEnrolled")
-      .populate({ path: courseContent, populate: { path: subSection } });
+      .populate({ path: "courseContent", populate: { path: "subSection" } });
 
     //validation
     if (!courseDetailes) {

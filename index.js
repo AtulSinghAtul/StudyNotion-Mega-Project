@@ -41,9 +41,9 @@ cloudinaryConnect();
 
 //routes
 app.use("/api/v1/auth", userRoutes);
-app.use("/api/v1/auth", profileRoutes);
-app.use("/api/v1/auth", courseRoutes);
-app.use("/api/v1/auth", paymentRoutes);
+app.use("/api/v1/auth/profile", profileRoutes);
+app.use("/api/v1/auth/course", courseRoutes);
+app.use("/api/v1/auth/payment", paymentRoutes);
 
 // default route
 app.get("/", (req, res) => {

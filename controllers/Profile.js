@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const Profile = require("../models/Profile");
+const Course = require("../models/Course");
+const { uploadImageToCloudinary } = require("../utils/imageUploader");
 
 //! Update profile because profile fake data is already exist
 exports.updateProfile = async (req, res) => {
@@ -58,7 +60,9 @@ exports.deletedProfileAccount = async (req, res) => {
 
     // get id
     const userId = req.user.id;
+    console.log("userId ------>>>", userId);
     const userDetailes = await User.findById(userId);
+    console.log("userDetailes---->>", userDetailes);
     const profileId = userDetailes.additionalDetails;
     const courseId = userDetailes.courses;
 
@@ -69,22 +73,28 @@ exports.deletedProfileAccount = async (req, res) => {
         message: "User Not Found",
       });
     }
+    console.log("userId ----->>", userId);
 
     //delete profile,  user and course
-    const deleteProfile = await Profile.findByIdAndDelete({ id: profileId });
+    const deleteProfile = await Profile.findByIdAndDelete({ _id: profileId });
+    console.log("delete courseId 0 ----->>", deleteProfile);
     //TODO hw Unenroll user from all enrolled courses
     if (deleteProfile) {
-      await courseId.findByIdAndDelete({ id: courseId });
+      console.log("delete courseId 1 ----->>", courseId);
+      await Course.findByIdAndDelete({ _id: courseId });
+      console.log("delete courseId 2 ----->>", courseId);
     }
+    console.log("delete courseId 3 ----->>", courseId);
 
-    await User.findByIdAndDelete({ id: userId });
-
+    await User.findByIdAndDelete({ _id: userId });
+    console.log("delete userId  4 ----->>", userId);
     //return response
     return res.status(200).json({
       success: true,
       message: "Profile Deleted Successfully",
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "User can not be deleted successfully ",
@@ -101,7 +111,7 @@ exports.getAllUserDetails = async (req, res) => {
 
     //validation and get user detailes
     const userDetailes = await User.findById(userId)
-      .populate("additionalDetailes")
+      .populate("additionalDetails")
       .exec();
 
     //return response
@@ -124,13 +134,15 @@ exports.updateDisplayPicture = async (req, res) => {
   try {
     const displayPicture = req.files.displayPicture;
     const userId = req.user.id;
+    console.log(`uploadImageToCloudinary display 1`);
     const image = await uploadImageToCloudinary(
       displayPicture,
       process.env.FOLDER_NAME,
       1000,
       1000
     );
-    console.log(image);
+    console.log(`uploadImageToCloudinary display 2`);
+    console.log("profile image-->>", image);
     const updatedProfile = await User.findByIdAndUpdate(
       { _id: userId },
       { image: image.secure_url },
@@ -142,9 +154,11 @@ exports.updateDisplayPicture = async (req, res) => {
       data: updatedProfile,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Image not uploaded on cloudinary",
+      error: error.message,
     });
   }
 };

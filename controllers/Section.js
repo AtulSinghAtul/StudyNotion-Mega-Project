@@ -1,5 +1,6 @@
 const Section = require("../models/Section");
 const Course = require("../models/Course");
+const mongoose = require("mongoose");
 
 //! CREATE a new section
 exports.createSection = async (req, res) => {
@@ -16,13 +17,19 @@ exports.createSection = async (req, res) => {
     }
 
     // Create a new section with the given name
-    const newSection = Section.create({
+    const newSection = await Section.create({
       sectionName,
     });
 
+    // let id = new mongoose.Types.ObjectId(newSection._id);
+    // console.log("id-------->>", id);
+
     // Add the new section to the course's content array
+    console.log("section -->", newSection);
+    console.log("section id-->", newSection._id);
+    console.log("course id-->", courseId);
     const updatedCourseDetails = await Course.findByIdAndUpdate(
-      { courseId },
+      courseId,
       {
         $push: {
           courseContent: newSection._id,
@@ -51,6 +58,7 @@ exports.createSection = async (req, res) => {
       updatedCourseDetails,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Unable to create section, please try again",
@@ -75,7 +83,7 @@ exports.updateSection = async (req, res) => {
 
     // update data
     const updatedSection = await Section.findByIdAndUpdate(
-      { sectionId },
+      sectionId,
       { sectionName },
       { new: true }
     );
@@ -87,6 +95,7 @@ exports.updateSection = async (req, res) => {
       message: "Section Updated Successfully",
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Unable to update section, please try again",
@@ -99,11 +108,24 @@ exports.updateSection = async (req, res) => {
 exports.deleteSection = async (req, res) => {
   try {
     //get id - assuming that we are sending id in params
-    const { sectionId } = req.params;
+    //* HW:- req.params k sath test karo
+    const { sectionId } = req.body;
 
     // delete data
     const deletedSection = await Section.findByIdAndDelete(sectionId);
-    //TODO[TESTING]: do we need to delete the entry from the course schema ??
+    //TODO[TESTING]: do we need to delete the entry from the course schema ?? COURSE KO BHI UPDATE KARO
+    const courseDetailes = await Course.find();
+    console.log("for updated course courseDetailes--->>>", courseDetailes);
+    const courseId = courseDetailes[1]._id;
+
+    console.log("courseId ------>>", courseId);
+
+    const pulledCourse = await Course.findByIdAndDelete(courseId, {
+      courseContent: sectionId,
+    });
+
+    console.log("pulledCourse------->>", pulledCourse);
+
     console.log("deletedSection ->>", deletedSection);
 
     // return response
@@ -112,6 +134,7 @@ exports.deleteSection = async (req, res) => {
       message: "Section Deleted Successfully",
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Unable to delete section, please try again",

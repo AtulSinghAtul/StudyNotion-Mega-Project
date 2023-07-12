@@ -178,7 +178,7 @@ exports.signup = async (req, res) => {
     console.log("Auth 178 failed");
     // return res
     return res.status(200).json({
-      success: false,
+      success: true,
       message: "User registered successfully",
       user,
     });

@@ -68,7 +68,7 @@ exports.categoryPageDetails = async (req, res) => {
     const selectedCategory = await Category.findById(categoryId)
       .populate("courses")
       .exec();
-    console.log(selectedCategory);
+    console.log("selectedCategory------>>>", selectedCategory);
     // Handle the case when the category is not found
     if (!selectedCategory) {
       console.log("Category not found.");
@@ -106,15 +106,16 @@ exports.categoryPageDetails = async (req, res) => {
       .sort((a, b) => b.sold - a.sold)
       .slice(0, 10);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: {
         selectedCourses: selectedCourses,
-        differentCourses: differentCourses,
+        // differentCourses: differentCourses,
         mostSellingCourses: mostSellingCourses,
       },
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
