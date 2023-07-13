@@ -116,7 +116,7 @@ exports.deleteSection = async (req, res) => {
     //TODO[TESTING]: do we need to delete the entry from the course schema ?? COURSE KO BHI UPDATE KARO
     const courseDetailes = await Course.find();
     console.log("for updated course courseDetailes--->>>", courseDetailes);
-    const courseId = courseDetailes[1]._id;
+    // const courseId = courseDetailes[1]._id;
 
     console.log("courseId ------>>", courseId);
 
