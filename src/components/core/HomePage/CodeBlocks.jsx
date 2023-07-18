@@ -15,11 +15,15 @@ const CodeBlocks = ({
   codeColor,
 }) => {
   return (
-    <div className={`flex flex-row gap-8 ${position} h-[350px] my-12`}>
+    <div
+      className={`h-[350px]  flex flex-row justify-between gap-24 ${position}  my-16`}
+    >
       {/* section 1 */}
       <div className={`w-[50%] flex flex-col gap-8`}>
         {heading}
-        <div className={`text-richblack-300 font-bold`}>{subheading}</div>
+        <div className={`text-richblack-300 font-semibold w-[85%]`}>
+          {subheading}
+        </div>
 
         {/* button section */}
         <div className={`flex gap-7 mt-7`}>
@@ -36,9 +40,9 @@ const CodeBlocks = ({
       </div>
 
       {/* section 2 */}
-      <div className="h-fit flex flex-row text-[10px] w-[100%] py-4 lg:w-[500px]">
+      <div className="h-fit flex flex-row   text-[10px] w-[100%] py-4 lg:w-[500px] border-top  bg-richblue-900">
         {/* HW --> bg gradient */}
-        <div className="text-center flex flex-col gap-2 w-[10%] text-richblack-400 font-inter font-bold">
+        <div className="text-center flex flex-col gap-2  w-[10%] text-richblack-400 font-inter font-bold">
           <p>1</p>
           <p>2</p>
           <p>3</p>
@@ -53,12 +57,13 @@ const CodeBlocks = ({
         </div>
 
         <div
-          className={`w-[90%] flex flex-col  font-bold font-mono ${codeColor} pr-2`}
+          className={`w-[90%] flex flex-col gap-[9px]  font-bold font-mono ${codeColor} pr-2`}
         >
           <TypeAnimation
             sequence={[codeblock, 5000, ""]}
             speed={50}
             style={{
+              fontSize: "14px",
               whiteSpace: "pre-line",
               display: "block",
             }}
