@@ -3,6 +3,7 @@ import logo1 from "../../../assets/TimeLineLogo/Logo1.svg";
 import logo2 from "../../../assets/TimeLineLogo/Logo2.svg";
 import logo3 from "../../../assets/TimeLineLogo/Logo3.svg";
 import logo4 from "../../../assets/TimeLineLogo/Logo4.svg";
+import timelineImage from "../../../assets/Images/TimelineImage.png";
 
 const TimelineSection = () => {
   const timeline = [
@@ -35,7 +36,7 @@ const TimelineSection = () => {
           {timeline.map((element, index) => {
             return (
               <div className="flex flex-row gap-6" key={index}>
-                <div className="w-[50px] h-[50px] bg-white flex items-center">
+                <div className="w-[50px] h-[50px] bg-white flex items-center justify-center rounded-full">
                   <img src={element.Logo} alt="logo-1" />
                 </div>
 
@@ -47,7 +48,28 @@ const TimelineSection = () => {
             );
           })}
         </div>
-        <div></div>
+        {/* right img section */}
+        <div className="relative shadow-blue-200">
+          <img
+            src={timelineImage}
+            alt="timelineImage"
+            className="shadow-black bg-cover h-fit"
+          />
+
+          <div className="absolute flex flex-row bg-caribbeangreen-700 text-white uppercase py-10 left-[50%] translate-x-[-50%] translate-y-[-50%]">
+            <div className="flex flex-row gap-5 items-center border-r border-caribbeangreen-300 px-7">
+              <p className="text-3xl font-bold">10</p>
+              <p className="text-caribbeangreen-300 text-sm">
+                Years of Experience
+              </p>
+            </div>
+
+            <div className="flex flex-row gap-5 items-center px-7">
+              <p className="text-3xl font-bold">250</p>
+              <p className="text-caribbeangreen-300 text-sm">Type of Courses</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

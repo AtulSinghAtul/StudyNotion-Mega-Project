@@ -7,6 +7,7 @@ import CodeBlocks from "../components/core/HomePage/CodeBlocks";
 import Banner from "../assets/Images/banner.mp4";
 import TimeLineSection from "../components/core/HomePage/TimelineSection";
 import LearningLanguageSection from "../components/core/HomePage/LearningLanguageSection";
+import InstructorSection from "../components/core/HomePage/InstructorSection";
 
 const Home = () => {
   return (
@@ -158,7 +159,21 @@ Go ahead, give it a try. Our hands-on learning environment means you'll be writi
             <LearningLanguageSection />
           </div>
         </div>
+
         {/* section 3 */}
+
+        <div
+          className="flex flex-col items-center justify-between gap-8 w-11/12 max-w-maxContent mx-auto 
+         bg-richblack-900 text-white first-letter"
+        >
+          <InstructorSection />
+
+          <h2 className="text-center text-4xl font-semibold mt-20">
+            Reviews from other learners
+          </h2>
+          {/* make review slider here*/}
+        </div>
+
         {/* section 4 -> footer */}
       </div>
     </>
