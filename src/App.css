@@ -38,3 +38,8 @@ div.video-background-shadow {
 .homepage_bg {
   background-image: url("../src/assets/Images/bghome.svg");
 }
+
+.border-dotted {
+  border-top-style: dashed;
+  border-color: #12d8fa;
+}
