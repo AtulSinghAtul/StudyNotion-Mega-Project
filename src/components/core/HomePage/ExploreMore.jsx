@@ -22,12 +22,13 @@ const ExploreMore = () => {
     const result = HomePageExplore.filter((course) => {
       return course.tag === value;
     });
+
     setCourses(result[0].courses);
     setCurrentCard(result[0].courses[0].heading);
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-8">
+    <div className=" relative flex flex-col justify-center items-center gap-8 mb-[280px]">
       <div className="text-4xl font-semibold text-center">
         Unlock the <HighlightText text={"Power of Code"} />
       </div>
@@ -54,7 +55,7 @@ const ExploreMore = () => {
       </div>
 
       {/* course card ka group */}
-      <div className="abcolute flex flex-row gap-10 justify-between w-full">
+      <div className="absolute top-[140%] flex flex-row gap-10 justify-between w-full">
         {courses.map((element, index) => {
           return (
             <CourseCard

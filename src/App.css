@@ -40,6 +40,9 @@ div.video-background-shadow {
 }
 
 .border-dotted {
+  border-top: 3px dotted rgb(173, 172, 172);
+
+  /* border-collapse: collapse;
   border-top-style: dashed;
-  border-color: #12d8fa;
+  border-color: #12d8fa; */
 }

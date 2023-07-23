@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "../components/common/navbar";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import HighlightText from "../components/core/HomePage/HighlightText";
@@ -14,6 +15,7 @@ const Home = () => {
   return (
     <>
       <div>
+        <Navbar />
         {/* section 1 */}
         <div className="relative mx-auto w-11/12 max-w-maxContent flex flex-col justify-between items-center text-white ">
           <Link to="/signup">
