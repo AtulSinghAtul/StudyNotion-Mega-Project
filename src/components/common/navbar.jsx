@@ -9,11 +9,16 @@ const Navbar = () => {
   return (
     <div className=" px-20 py-3 bg-[#161D29]">
       <div className="flex flex-row justify-between items-center    w-11/12 mx-auto text-[15px] text-richblack-200">
-        <img
-          src={studyNotionLogo}
-          alt="studynotionimg"
-          className="w-[180px] cursor-pointer"
-        />
+        {/* image */}
+        <Link to={"/"}>
+          <img
+            src={studyNotionLogo}
+            alt="studynotionimg"
+            className="w-[180px] cursor-pointer"
+          />
+        </Link>
+
+        {/* nav links */}
         <ul className="flex flex-row justify-center items-center gap-5 ">
           <li className="cursor-pointer hover:text-[#FFD60A]">Home</li>
           <li className="flex flex-row justify-center items-baseline cursor-pointer">
