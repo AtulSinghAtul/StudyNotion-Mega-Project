@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/common/navbar";
+import Navbar from "../components/common/Nav";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import HighlightText from "../components/core/HomePage/HighlightText";
@@ -10,14 +10,13 @@ import TimeLineSection from "../components/core/HomePage/TimelineSection";
 import LearningLanguageSection from "../components/core/HomePage/LearningLanguageSection";
 import InstructorSection from "../components/core/HomePage/InstructorSection";
 import ExploreMore from "../components/core/HomePage/ExploreMore";
-import Nav from "../components/common/Nav";
 
 const Home = () => {
   return (
     <>
       <div>
         <Navbar />
-        <Nav />
+
         {/* section 1 */}
         <div className="relative mx-auto w-11/12 max-w-maxContent flex flex-col justify-between items-center text-white ">
           <Link to="/signup">

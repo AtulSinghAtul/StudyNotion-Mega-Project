@@ -1,7 +1,7 @@
 import React from "react";
 import loginPage from "../assets/Images/login.webp";
 import frame from "../assets/Images/frame.png";
-import Navbar from "../components/common/navbar";
+import Navbar from "../components/common/Nav";
 
 const Login = () => {
   return (

@@ -13,6 +13,9 @@ const cartSlice = createSlice({
     setTotalItems(state, value) {
       state.totalItems = value.payload;
     },
+    //add to cart
+    //removefrom cart
+    // reset cart
   },
 });
 
