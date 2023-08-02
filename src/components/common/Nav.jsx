@@ -37,7 +37,7 @@ const Nav = () => {
   }
 
   return (
-    <div className="border-b-[1px] border-b-richblack-700">
+    <div className="border-b-[1px] border-b-richblack-700 mb-16">
       <div
         className="flex h-14 items-center justify-between  text-white 
        w-11/12 max-w-maxContent mx-auto"
@@ -57,23 +57,26 @@ const Nav = () => {
                 <li key={index} className="text-yellow-25">
                   {links.title === "Catalog" ? (
                     <div className="relative">
-                      <div className="flex items-center gap-1 group hover:cursor-pointer">
+                      <div
+                        className={`   flex items-center gap-1 group hover:cursor-pointer`}
+                      >
                         {links.title}
                         <BiSolidChevronDown />
 
                         {/* dropdown box */}
-                        <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[60%] bg-richblack-5 rounded-md md:w-[320px] h-fit px-5  invisible group-hover:visible z-10">
-                          <div className="absolute left-[59%] top-[50%] translate-x-[-50%] translate-y-[-90%] bg-richblack-5 w-8 h-8  -rotate-45"></div>
+                        <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[28%] bg-richblack-5 rounded-md md:w-[320px] h-fit px-2 py-5 invisible group-hover:visible z-10 ">
+                          <div className="absolute left-[59%] top-[50%] translate-x-[-50%] translate-y-[-239.5%] bg-richblack-5 w-8 h-8  -rotate-45 "></div>
 
                           {subLinks.length ? (
-                            subLinks.map((link, index) => (
-                              <div key={index}>
-                                <Link to={link.link}>
-                                  <div className="text-richblack-900">
-                                    {link.title}
-                                  </div>
-                                </Link>
-                              </div>
+                            subLinks.map((subLink, index) => (
+                              <Link to={subLink.link}>
+                                <div
+                                  key={index}
+                                  className={` flex flex-col mb-2 w-[100%] py-1 px-1 rounded-md text-richblack-25  bg-richblack-300 hover:bg-richblack-700 hover:text-richblack-25`}
+                                >
+                                  {subLink.title}
+                                </div>
+                              </Link>
                             ))
                           ) : (
                             <div></div>
