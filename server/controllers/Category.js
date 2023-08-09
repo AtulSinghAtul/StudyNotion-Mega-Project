@@ -94,12 +94,7 @@ exports.categoryPageDetails = async (req, res) => {
       .populate("courses")
       .exec();
     console.log("differentCategories -->", differentCategories);
-    // let differentCourses = [];
-    // for (const category of categoriesExceptSelected) {
-    //   differentCourses.push(...category.courses);
-    // }
 
-    // Get top-selling courses across all categories
     const allCategories = await Category.find().populate("courses");
     const allCourses = allCategories.flatMap((category) => category.courses);
     const mostSellingCourses = allCourses

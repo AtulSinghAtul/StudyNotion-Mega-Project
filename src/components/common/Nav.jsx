@@ -6,26 +6,28 @@ import { useSelector } from "react-redux";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiSolidChevronDown } from "react-icons/bi";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
-// import { useState } from "react";
+import { useState } from "react";
+import { CATEGORIES_API } from "../../services/apis";
 
-const subLinks = [
-  {
-    title: "Python",
-    link: "/python",
-  },
-  {
-    title: "Web Dev",
-    link: "/web-development",
-  },
-];
+// const subLinks = [
+//   {
+//     title: "Python",
+//     link: "/python",
+//   },
+//   {
+//     title: "Web Dev",
+//     link: "/web-development",
+//   },
+// ];
 
 const Nav = () => {
-  // const [subLink, setSubLink] = useState([]);
+  const [subLink, setSubLink] = useState([]);
 
   // console.log(subLink);
   // console.log(setSubLink("react"));
 
   const location = useLocation();
+
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const { totalItems } = useSelector((state) => state.cart);
@@ -37,10 +39,10 @@ const Nav = () => {
   }
 
   return (
-    <div className="border-b-[1px] border-b-richblack-700 mb-16">
+    <div className="flex w-[100%] justify-center items-center h-14 border-b-[1px] border-b-richblack-700 ">
       <div
-        className="flex h-14 items-center justify-between  text-white 
-       w-11/12 max-w-maxContent mx-auto"
+        className="flex  items-center justify-between  text-white 
+       w-11/12 max-w-maxContent "
       >
         {/* logo image */}
         <div className="flex flex-row justify-between items-center ">
@@ -58,12 +60,12 @@ const Nav = () => {
                   {links.title === "Catalog" ? (
                     <div className="relative">
                       <div
-                        className={`   flex items-center gap-1 group hover:cursor-pointer`}
+                        className={`   flex items-center gap-1 hover:cursor-pointer group`}
                       >
                         {links.title}
                         <BiSolidChevronDown />
 
-                        {/* dropdown box */}
+                        {/* hover dropdown box */}
                         <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[28%] bg-richblack-5 rounded-md md:w-[320px] h-fit px-2 py-5 invisible group-hover:visible z-10 ">
                           <div className="absolute left-[59%] top-[50%] translate-x-[-50%] translate-y-[-239.5%] bg-richblack-5 w-8 h-8  -rotate-45 "></div>
 
@@ -115,6 +117,7 @@ const Nav = () => {
           {token === null && (
             <Link to={"/login"}>
               <button className="border-1px border-richblack-700 bg-richblack-800 px-6 py-2 rounded text-richblack-100">
+                {console.log("Nav bar login")}
                 Log in
               </button>
             </Link>
