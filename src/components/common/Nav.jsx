@@ -6,31 +6,44 @@ import { useSelector } from "react-redux";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiSolidChevronDown } from "react-icons/bi";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
-import { useState } from "react";
-import { CATEGORIES_API } from "../../services/apis";
+// import { useState, useEffect } from "react";
+// import { categories } from "../../services/apis";
+// import { apiConnector } from "../../services/apiconnector";
 
-// const subLinks = [
-//   {
-//     title: "Python",
-//     link: "/python",
-//   },
-//   {
-//     title: "Web Dev",
-//     link: "/web-development",
-//   },
-// ];
+const subLinks = [
+  {
+    title: "Python",
+    link: "/python",
+  },
+  {
+    title: "Web Dev",
+    link: "/web-development",
+  },
+];
 
 const Nav = () => {
-  const [subLink, setSubLink] = useState([]);
-
-  // console.log(subLink);
-  // console.log(setSubLink("react"));
-
   const location = useLocation();
 
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const { totalItems } = useSelector((state) => state.cart);
+
+  // const [subLinks, setSubLinks] = useState([]);
+
+  // const fetchSubLinks = async () => {
+  //   try {
+  //     const result = await apiConnector("GET", categories.CATEGORIES_API);
+  //     console.log("Printing Sublinks result:", result);
+  //     setSubLinks(result.data.data);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     console.log("Could not fetch the category list");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchSubLinks();
+  // }, []);
 
   function matchRoute(route) {
     // console.log(location.pathname);

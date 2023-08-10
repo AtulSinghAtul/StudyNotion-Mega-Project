@@ -8,16 +8,18 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/common/Nav";
 import OpenRoute from "./components/core/Auth/OpenRoute";
+import ForgotPassword from "./pages/ForgotPassword";
+import UpdatePassword from "./pages/UpdatePassword";
 
 const App = () => {
   return (
-    <div className="w-screen min-h-screen  bg-richblack-900 flex flex-col justify-center items-center">
+    <div className="w-screen min-h-screen  bg-richblack-900 flex flex-col justify-start items-center">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
 
         <Route
-          path="/login"
+          path="login"
           element={
             <OpenRoute>
               <Login />
@@ -26,7 +28,7 @@ const App = () => {
         />
 
         <Route
-          path="/signup"
+          path="signup"
           element={
             <OpenRoute>
               <Signup />
@@ -34,8 +36,26 @@ const App = () => {
           }
         />
 
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route
+          path="forgot-password"
+          element={
+            <OpenRoute>
+              <ForgotPassword />
+            </OpenRoute>
+          }
+        />
+
+        <Route
+          path="update-password/:id"
+          element={
+            <OpenRoute>
+              <UpdatePassword />
+            </OpenRoute>
+          }
+        />
+
+        <Route path="about" element={<AboutUs />} />
+        <Route path="contact" element={<Contact />} />
       </Routes>
     </div>
   );

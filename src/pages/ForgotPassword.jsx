@@ -1,14 +1,21 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { getPasswordResetToken } from "../services/operations/authAPI";
 
 const ForgotPassword = () => {
   const [emailSent, setEmailSent] = useState(false);
   const [email, setEmail] = useState("");
   const { loading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  function handleOnSubmit(e) {
+    e.preventDefault();
+    dispatch(getPasswordResetToken(email, setEmailSent));
+  }
 
   return (
-    <div>
+    <div className="text-white flex place-items-center">
       {loading ? (
         <div>Loading ...</div>
       ) : (
@@ -21,13 +28,14 @@ const ForgotPassword = () => {
 ${email}`}
           </p>
 
-          <form>
+          <form onSubmit={handleOnSubmit}>
             {!emailSent && (
               <label>
                 <p>
                   Email Address <sup>*</sup>
                 </p>
                 <input
+                  className="text-black"
                   required
                   type="email"
                   name="email"

@@ -6,8 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../services/operations/authAPI";
 
 function LoginForm() {
-  console.log("login form ");
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({

@@ -108,7 +108,7 @@ export function login(email, password, navigate) {
       localStorage.setItem("token", JSON.stringify(response.data.token));
       navigate("/dashboard/my-profile");
     } catch (error) {
-      console.log("LOGIN API ERROR............", error);
+      console.log("LOGIN API ERROR............", error.message);
       toast.error("Login Failed");
     }
     dispatch(setLoading(false));
@@ -116,35 +116,8 @@ export function login(email, password, navigate) {
   };
 }
 
-export function getPasswordResetToken(email, setEmailSent) {
+export function resetPassword(password, confirmPassword, token) {
   return async (dispatch) => {
-    const toastId = toast.loading("Loading...");
-    dispatch(setLoading(true));
-    try {
-      const response = await apiConnector("POST", RESETPASSTOKEN_API, {
-        email,
-      });
-
-      console.log("RESETPASSTOKEN RESPONSE............", response);
-
-      if (!response.data.success) {
-        throw new Error(response.data.message);
-      }
-
-      toast.success("Reset Email Sent");
-      setEmailSent(true);
-    } catch (error) {
-      console.log("RESETPASSTOKEN ERROR............", error);
-      toast.error("Failed To Send Reset Email");
-    }
-    toast.dismiss(toastId);
-    dispatch(setLoading(false));
-  };
-}
-
-export function resetPassword(password, confirmPassword, token, navigate) {
-  return async (dispatch) => {
-    const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));
     try {
       const response = await apiConnector("POST", RESETPASSWORD_API, {
@@ -160,24 +133,53 @@ export function resetPassword(password, confirmPassword, token, navigate) {
       }
 
       toast.success("Password Reset Successfully");
-      navigate("/login");
     } catch (error) {
-      console.log("RESETPASSWORD ERROR............", error);
+      console.log("RESETPASSWORD ERROR............", error, error.message);
       toast.error("Failed To Reset Password");
     }
-    toast.dismiss(toastId);
+
     dispatch(setLoading(false));
   };
 }
 
 export function logout(navigate) {
   return (dispatch) => {
+    console.log("authAPI logout function");
     dispatch(setToken(null));
     dispatch(setUser(null));
     dispatch(resetCart());
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     toast.success("Logged Out");
+    console.log("authAPI logout function");
     navigate("/");
+    console.log("authAPI logout function");
+  };
+}
+
+// reset password setup
+
+export function getPasswordResetToken(email, setEmailSent) {
+  return async (dispatch) => {
+    dispatch(setLoading(true));
+
+    try {
+      const response = await apiConnector("POST", RESETPASSTOKEN_API, {
+        email,
+      });
+
+      console.log("Reset Password Token Response...", response);
+
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+
+      toast.success("Reset Email Sent");
+      setEmailSent(true);
+    } catch (error) {
+      console.log("Reset Password Token error...", error.message);
+      toast.error("Failed to send email for resetting password");
+    }
+    dispatch(setLoading(false));
   };
 }

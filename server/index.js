@@ -24,8 +24,9 @@ app.use(cookieParser());
 // for connecting frontend from backend
 app.use(
   cors({
-    origin: "https://localhost:3000",
-    credentials: true,
+    origin: "http://localhost:3000",
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
   })
 );
 

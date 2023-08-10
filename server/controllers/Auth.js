@@ -134,7 +134,7 @@ exports.signup = async (req, res) => {
     console.log("recentOtp-->>", recentOtp);
 
     // validate OTP
-    if (recentOtp.length == 0) {
+    if (recentOtp.length === 0) {
       // OTP not found for the email
       return res.status(400).json({
         success: false,
@@ -150,12 +150,12 @@ exports.signup = async (req, res) => {
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("Auth 153 failed");
+    // console.log("Auth 153 failed");
     // Create the user
     let approved = "";
     approved === "Instructor" ? (approved = false) : (approved = true);
 
-    console.log("Auth 158 failed");
+    // console.log("Auth 158 failed");
     // Create the Additional Profile For User
     const profileDetails = await Profile.create({
       gender: " ",
@@ -163,7 +163,7 @@ exports.signup = async (req, res) => {
       about: " ",
       contactNumber: " ",
     });
-    console.log("Auth 166 failed");
+    // console.log("Auth 166 failed");
 
     const user = await User.create({
       firstName,
@@ -175,7 +175,7 @@ exports.signup = async (req, res) => {
       additionalDetails: profileDetails._id,
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
     });
-    console.log("Auth 178 failed");
+    // console.log("Auth 178 failed");
     // return res
     return res.status(200).json({
       success: true,
