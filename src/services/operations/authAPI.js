@@ -72,9 +72,11 @@ export function signUp(
         throw new Error(response.data.message);
       }
       toast.success("Signup Successful");
+
       navigate("/login");
     } catch (error) {
       console.log("SIGNUP API ERROR............", error);
+
       toast.error("Signup Failed");
       navigate("/signup");
     }
@@ -146,7 +148,7 @@ export function logout(navigate) {
   return (dispatch) => {
     console.log("authAPI logout function");
     dispatch(setToken(null));
-    dispatch(setUser(null));
+    // dispatch(setUser(null));
     dispatch(resetCart());
     localStorage.removeItem("token");
     localStorage.removeItem("user");

@@ -64,14 +64,14 @@ exports.sendotp = async (req, res) => {
 
     // return response successfull
     res.status(200).json({
-      successs: true,
+      success: true,
       message: "OTP Sent Successfully",
       otp,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      successs: false,
+      success: false,
       message: "not sent otp something is error",
       error: error.message,
     });
