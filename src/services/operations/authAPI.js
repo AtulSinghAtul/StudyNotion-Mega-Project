@@ -104,15 +104,23 @@ export function login(email, password, navigate) {
         throw new Error(response.data.message);
       }
 
-      toast.success("Login Successful");
+      toast.success("Login Successful 1");
       dispatch(setToken(response.data.token));
+
       const userImage = response.data?.user?.image
         ? response.data.user.image
         : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`;
+      toast.success("Login Successful 2");
       dispatch(setUser({ ...response.data.user, image: userImage }));
+
+      toast.success("Login Successful 3");
+
       localStorage.setItem("token", JSON.stringify(response.data.token));
+      console.log("routing hello");
       navigate("/dashboard/my-profile");
+      console.log("routing hello");
     } catch (error) {
+      console.log("LOGIN API ERROR............", error);
       console.log("LOGIN API ERROR............", error.message);
       toast.error("Login Failed");
     }

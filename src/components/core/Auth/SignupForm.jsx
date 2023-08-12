@@ -46,6 +46,7 @@ function SignupForm() {
 
     const signupData = {
       ...formData,
+      navigate,
       accountType,
     };
 
