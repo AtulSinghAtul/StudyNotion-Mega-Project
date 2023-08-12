@@ -66,13 +66,15 @@ const VerifyEmail = () => {
           </form>
 
           <div className="flex gap-10">
-            {/* <Link to="/login">
+            <Link to="/login">
               <button>Back to login</button>
-            </Link> */}
+            </Link>
 
-            {/* <button onClick={dispatch(sendOtp(signupData.email, navigate))}>
+            <button
+              onClick={() => dispatch(sendOtp(signupData.email, navigate))}
+            >
               Resend it
-            </button> */}
+            </button>
           </div>
         </div>
       )}
