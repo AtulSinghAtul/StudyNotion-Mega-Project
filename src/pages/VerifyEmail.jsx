@@ -18,7 +18,7 @@ const VerifyEmail = () => {
 
   function handleOnSubmit(e) {
     e.preventDefault();
-
+    console.log("hello from handleOnSubmit 1");
     const {
       accountType,
       firstName,
@@ -41,6 +41,7 @@ const VerifyEmail = () => {
         navigate
       )
     );
+    console.log("hello from handleOnSubmit 2");
   }
 
   return (
