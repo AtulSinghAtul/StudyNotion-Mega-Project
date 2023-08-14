@@ -1,32 +1,27 @@
 import React, { useState } from "react";
-import { logout } from "../../../services/operations/authAPI";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-// import { AiOutlineShoppingCart } from "react-icons/ai";
+
+import { useSelector } from "react-redux";
+
 import { setUser } from "../../../slices/profileSlice";
 import DropFunction from "./DropFunction";
 
 const ProfileDropDown = () => {
   const [open, setOpen] = useState(false);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const items = useSelector((state) => state.profile);
-  console.log(items);
-  console.log(items.user.image);
+  // console.log(items);
+  console.log(items?.user?.image);
   console.log(setUser());
 
   return (
-    <div className="flex flex-col">
-      {/* <AiOutlineShoppingCart /> */}
-      {/* <img src={} alt="cartImg"/> */}
+    <div className="flex flex-col relative">
       <img
         onClick={() => setOpen(true)}
         className="w-[25px] rounded-full"
-        src={items.user.image}
+        src={items?.user?.image}
         alt="ProfileImg"
       />
-      <button onClick={() => dispatch(logout(navigate))}>Logout</button>
+
       <DropFunction open={open} setOpen={setOpen} />
     </div>
   );
