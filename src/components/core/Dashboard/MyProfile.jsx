@@ -5,24 +5,30 @@ import IconBtn from "../../common/iconBtn";
 import { LuFileEdit } from "react-icons/lu";
 
 const MyProfile = () => {
-  const { user } = useSelector((state) => state.profile);
+  const user = useSelector((state) => {
+    console.log("useselector state-->", state);
+    console.log("useselector state.profile-->", state.profile);
+    console.log("useselector state.profile.user-->", state.profile.user);
+    return state.profile.user;
+  });
   const navigate = useNavigate();
 
+  console.log(user);
   console.log(user?.additionalDetails?.about);
 
   return (
-    <div className="text-white ">
+    <div className="text-white w-[100%] flex flex-col gap-10">
       <h1>My Profile</h1>
 
       {/* section 1 */}
-      <div>
-        <div>
+      <div className="flex ">
+        <div className="flex flex-col gap-4">
           <img
             src={user?.image}
             alt={`profile-${user?.firstName} `}
             className="aspect-square w-[78px] rounded-full object-cover"
           />
-          <div>
+          <div className="flex  gap-4">
             <p>{user?.firstName + " " + user?.lastName}</p>
             <p>{user?.email}</p>
           </div>
@@ -54,7 +60,7 @@ const MyProfile = () => {
         <p>{user?.additionalDetails?.about ?? "Hey Babbar "}</p>
       </div>
 
-      {/* section 2 */}
+      {/* section 3 */}
       <div>
         <div>
           <p>Personal Detaile</p>
@@ -68,7 +74,7 @@ const MyProfile = () => {
           </IconBtn>
         </div>
 
-        <div>
+        <div className="grid grid-cols-2">
           <div>
             <p>First Name</p>
             <p>{user?.firstName}</p>
@@ -98,7 +104,7 @@ const MyProfile = () => {
 
           <div>
             <p>Date of Birth</p>
-            <p>{user?.additionalDetails?.dateOfBirth ?? "Add date of birth"}</p>
+            <p>{user?.additionalDetails?.dob ?? "Add date of birth"}</p>
           </div>
         </div>
       </div>

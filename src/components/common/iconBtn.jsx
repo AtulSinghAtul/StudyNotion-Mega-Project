@@ -10,7 +10,12 @@ const IconBtn = ({
   type,
 }) => {
   return (
-    <button disabled={disabled} onClick={onClick} type={type}>
+    <button
+      disabled={disabled}
+      onClick={onClick}
+      type={type}
+      className="flex justify-center items-center gap-2"
+    >
       {children ? (
         <>
           <span>{text}</span>

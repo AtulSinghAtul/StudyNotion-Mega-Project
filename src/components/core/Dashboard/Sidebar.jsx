@@ -4,7 +4,7 @@ import { logout } from "../../../services/operations/authAPI";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SidebarLink from "./SidebarLink";
-// import { VscSignOut } from "react-icons/vs";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 import CofirmationModal from "../../common/CofirmationModal";
 
 const Sidebar = () => {
@@ -19,9 +19,9 @@ const Sidebar = () => {
   }
 
   return (
-    <div>
-      <div className="flex flex-col border-r-richblack-700 h-[calc(100vh-3.5rem)] w-[222px] bg-richblack-800 py-10">
-        <div className="flex flex-col">
+    <div className="text-richblack-300">
+      <div className="flex flex-col border-r-richblack-700 h-[calc(100vh-3.5rem)] w-[222px] bg-richblack-800 py-10 ">
+        <div className="flex flex-col ml-4">
           {sidebarLinks.map((link, index) => (
             <SidebarLink key={link.id} link={link} iconName={link.icon} />
           ))}
@@ -48,7 +48,7 @@ const Sidebar = () => {
           }
         >
           <div className="flex items-center gap-x-2">
-            {/* <VscSignOut className="text-lg" /> */}
+            <RiLogoutCircleRLine className="text-lg" />
             <span>Logout</span>
           </div>
         </button>
