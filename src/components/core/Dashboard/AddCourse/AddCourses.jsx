@@ -1,19 +1,13 @@
-import React, { useState } from "react";
 import RenderSteps from "./RenderSteps";
 console.log("entered into addcourse component 111");
 
 const AddCourses = () => {
-  const [change, setChange] = useState(null);
   console.log("entered into addcourse component 222");
   return (
     <div>
       <div>
         <RenderSteps />
-        <form>
-          <button onClick={() => setChange(change + 1)}></button>
-          {change}
-          {console.log(change)}
-        </form>
+        <form></form>
         <div>
           <h2>⚡Course Upload Tips</h2>
           <ul>
