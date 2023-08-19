@@ -12,9 +12,12 @@ const DropFunction = ({ open, setOpen }) => {
     <div
       className={`${
         open ? "block" : "hidden"
-      } flex flex-col gap-1 absolute top-8 right-1`}
+      } flex flex-col gap-1 absolute top-8 right-1 z-20`}
     >
-      <div onClick={() => setOpen(false)}>DropFunction</div>
+      {/* <div onClick={() => setOpen(false)}>DropFunction</div> */}
+      <button onClick={() => navigate("/dashboard/my-profile")}>
+        Dashboard
+      </button>
 
       <button onClick={() => dispatch(logout(navigate))}>Logout</button>
     </div>
