@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import IconBtn from "../../../../common/iconBtn";
 import { IoMdAddCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { BiArrowToRight } from "BiArrowToRight/bi";
+// import { FiArrowRightCircle } from "FiArrowRightCircle/fi";
 import {
   setCourse,
   setEditCourse,
@@ -149,7 +149,7 @@ const CourseBuilderForm = () => {
           Back
         </button>
         <IconBtn text="Next" onClick={goToNext}>
-          <BiArrowToRight />
+          {/* <FiArrowRightCircle /> */}
         </IconBtn>
       </div>
     </div>
