@@ -22,7 +22,7 @@ import Cart from "./components/core/Dashboard/Cart";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import { useSelector } from "react-redux";
 import MyCourses from "./components/core/Dashboard/MyCourses";
-import AddCourses from "./components/core/Dashboard/AddCourse/AddCourses";
+import AddCourses from "./components/core/Dashboard/AddCourse/PublishCourse/index";
 
 const App = () => {
   const { user } = useSelector((state) => state.auth);

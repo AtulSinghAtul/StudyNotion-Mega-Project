@@ -14,7 +14,7 @@ require("dotenv").config();
 exports.sendotp = async (req, res) => {
   try {
     // fetch email from req body
-    const email = req.body.email;
+    const { email } = req.body;
 
     // Check if user is already present
     // Find user with provided email
