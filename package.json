@@ -33,11 +33,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git"
+    "url": "https://github.com/AtulSinghAtul/StudyNotion-Mega-Project"
   },
   "author": "Atul Singh",
   "bugs": {
-    "url": "https://github.com/thepranaygupta/react-tailwind-css-starter-pack/issues"
+    "url": ""
   },
   "scripts": {
     "start": "react-scripts start",
