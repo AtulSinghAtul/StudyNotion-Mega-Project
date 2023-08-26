@@ -1,148 +1,130 @@
-const User = require("../models/User");
 const Profile = require("../models/Profile");
-const Course = require("../models/Course");
-const { uploadImageToCloudinary } = require("../utils/imageUploader");
+const CourseProgress = require("../models/CourseProgress");
 
-//! Update profile because profile fake data is already exist
+const Course = require("../models/Course");
+const User = require("../models/User");
+const { uploadImageToCloudinary } = require("../utils/imageUploader");
+const mongoose = require("mongoose");
+const { convertSecondsToDuration } = require("../utils/secToDuration");
+// Method for updating a profile
 exports.updateProfile = async (req, res) => {
   try {
-    //get data
-    const { gender, dob, about, contactNumber } = req.body;
-
-    // get userId
-    const userId = req.user.id;
-
-    //validation
-    if (!gender || !userId || !contactNumber) {
-      return res.status(400).json({
-        success: false,
-        message: "All Fields are required",
-      });
-    }
+    const {
+      firstName = "",
+      lastName = "",
+      dateOfBirth = "",
+      about = "",
+      contactNumber = "",
+      gender = "",
+    } = req.body;
+    const id = req.user.id;
 
     // Find the profile by id
-    const userDetailes = await User.findById(userId);
-    const profileId = userDetailes.additionalDetails;
-    const profileDetailes = await Profile.findById(profileId);
+    const userDetails = await User.findById(id);
+    const profile = await Profile.findById(userDetails.additionalDetails);
 
-    //update profile :- we have two way to create entry or update in db - 1:- create(), 2:- save() method
-    profileDetailes.gender = gender;
-    profileDetailes.dob = dob;
-    profileDetailes.about = about;
-    profileDetailes.contactNumber = contactNumber;
+    const user = await User.findByIdAndUpdate(id, {
+      firstName,
+      lastName,
+    });
+    await user.save();
+
+    // Update the profile fields
+    profile.dateOfBirth = dateOfBirth;
+    profile.about = about;
+    profile.contactNumber = contactNumber;
+    profile.gender = gender;
+
     // Save the updated profile
-    await profileDetailes.save();
+    await profile.save();
 
-    //return response
-    return res.status(200).json({
+    // Find the updated user details
+    const updatedUserDetails = await User.findById(id)
+      .populate("additionalDetails")
+      .exec();
+
+    return res.json({
       success: true,
-      message: "Profile Updated Successfully",
-      profileDetailes,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Profile Updation failed, something went wrong ",
-      error: error.message,
-    });
-  }
-};
-
-//! delete profile
-
-exports.deletedProfileAccount = async (req, res) => {
-  try {
-    //* explore Cron Job for sheudiling to delete profile
-    // const job = schedule.scheduleJob("10 * * * * *", function () {
-    // 	console.log("The answer to life, the universe, and everything!");
-    // });
-    // console.log(job);
-
-    // get id
-    const userId = req.user.id;
-    console.log("userId ------>>>", userId);
-    const userDetailes = await User.findById(userId);
-    console.log("userDetailes---->>", userDetailes);
-    const profileId = userDetailes.additionalDetails;
-    const courseId = userDetailes.courses;
-
-    //validation
-    if (!userDetailes) {
-      return res.status(404).json({
-        success: false,
-        message: "User Not Found",
-      });
-    }
-    console.log("userId ----->>", userId);
-
-    //delete profile,  user and course
-    const deleteProfile = await Profile.findByIdAndDelete({ _id: profileId });
-    console.log("delete courseId 0 ----->>", deleteProfile);
-    //TODO hw Unenroll user from all enrolled courses
-    if (deleteProfile) {
-      console.log("delete courseId 1 ----->>", courseId);
-      await Course.findByIdAndDelete({ _id: courseId });
-      console.log("delete courseId 2 ----->>", courseId);
-    }
-    console.log("delete courseId 3 ----->>", courseId);
-
-    await User.findByIdAndDelete({ _id: userId });
-    console.log("delete userId  4 ----->>", userId);
-    //return response
-    return res.status(200).json({
-      success: true,
-      message: "Profile Deleted Successfully",
+      message: "Profile updated successfully",
+      updatedUserDetails,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       success: false,
-      message: "User can not be deleted successfully ",
       error: error.message,
     });
   }
 };
 
-//! get all user detailes
+exports.deleteAccount = async (req, res) => {
+  try {
+    const id = req.user.id;
+    console.log(id);
+    const user = await User.findById({ _id: id });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    // Delete Assosiated Profile with the User
+    await Profile.findByIdAndDelete({
+      _id: new mongoose.Types.ObjectId(user.additionalDetails),
+    });
+    for (const courseId of user.courses) {
+      await Course.findByIdAndUpdate(
+        courseId,
+        { $pull: { studentsEnroled: id } },
+        { new: true }
+      );
+    }
+    // Now Delete User
+    await User.findByIdAndDelete({ _id: id });
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+    await CourseProgress.deleteMany({ userId: id });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: "User Cannot be deleted successfully" });
+  }
+};
+
 exports.getAllUserDetails = async (req, res) => {
   try {
-    //get profile id
-    const userId = req.user.id;
-
-    //validation and get user detailes
-    const userDetailes = await User.findById(userId)
+    const id = req.user.id;
+    const userDetails = await User.findById(id)
       .populate("additionalDetails")
       .exec();
-
-    //return response
-    return res.status(200).json({
+    console.log(userDetails);
+    res.status(200).json({
       success: true,
-      message: "Profile details successfully ppopulated",
-      userDetailes,
+      message: "User Data fetched successfully",
+      data: userDetails,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "User details not getting, something went wrong",
-      error: error.message,
+      message: error.message,
     });
   }
 };
 
-//! added this below code from lecture - 6
 exports.updateDisplayPicture = async (req, res) => {
   try {
     const displayPicture = req.files.displayPicture;
     const userId = req.user.id;
-    console.log(`uploadImageToCloudinary display 1`);
     const image = await uploadImageToCloudinary(
       displayPicture,
       process.env.FOLDER_NAME,
       1000,
       1000
     );
-    console.log(`uploadImageToCloudinary display 2`);
-    console.log("profile image-->>", image);
+    console.log(image);
     const updatedProfile = await User.findByIdAndUpdate(
       { _id: userId },
       { image: image.secure_url },
@@ -154,11 +136,9 @@ exports.updateDisplayPicture = async (req, res) => {
       data: updatedProfile,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
-      message: "Image not uploaded on cloudinary",
-      error: error.message,
+      message: error.message,
     });
   }
 };
@@ -166,11 +146,54 @@ exports.updateDisplayPicture = async (req, res) => {
 exports.getEnrolledCourses = async (req, res) => {
   try {
     const userId = req.user.id;
-    const userDetails = await User.findOne({
+    let userDetails = await User.findOne({
       _id: userId,
     })
-      .populate("courses")
+      .populate({
+        path: "courses",
+        populate: {
+          path: "courseContent",
+          populate: {
+            path: "subSection",
+          },
+        },
+      })
       .exec();
+    userDetails = userDetails.toObject();
+    var SubsectionLength = 0;
+    for (var i = 0; i < userDetails.courses.length; i++) {
+      let totalDurationInSeconds = 0;
+      SubsectionLength = 0;
+      for (var j = 0; j < userDetails.courses[i].courseContent.length; j++) {
+        totalDurationInSeconds += userDetails.courses[i].courseContent[
+          j
+        ].subSection.reduce(
+          (acc, curr) => acc + parseInt(curr.timeDuration),
+          0
+        );
+        userDetails.courses[i].totalDuration = convertSecondsToDuration(
+          totalDurationInSeconds
+        );
+        SubsectionLength +=
+          userDetails.courses[i].courseContent[j].subSection.length;
+      }
+      let courseProgressCount = await CourseProgress.findOne({
+        courseID: userDetails.courses[i]._id,
+        userId: userId,
+      });
+      courseProgressCount = courseProgressCount?.completedVideos.length;
+      if (SubsectionLength === 0) {
+        userDetails.courses[i].progressPercentage = 100;
+      } else {
+        // To make it up to 2 decimal point
+        const multiplier = Math.pow(10, 2);
+        userDetails.courses[i].progressPercentage =
+          Math.round(
+            (courseProgressCount / SubsectionLength) * 100 * multiplier
+          ) / multiplier;
+      }
+    }
+
     if (!userDetails) {
       return res.status(400).json({
         success: false,
@@ -186,5 +209,33 @@ exports.getEnrolledCourses = async (req, res) => {
       success: false,
       message: error.message,
     });
+  }
+};
+
+exports.instructorDashboard = async (req, res) => {
+  try {
+    const courseDetails = await Course.find({ instructor: req.user.id });
+
+    const courseData = courseDetails.map((course) => {
+      const totalStudentsEnrolled = course.studentsEnroled.length;
+      const totalAmountGenerated = totalStudentsEnrolled * course.price;
+
+      // Create a new object with the additional fields
+      const courseDataWithStats = {
+        _id: course._id,
+        courseName: course.courseName,
+        courseDescription: course.courseDescription,
+        // Include other course properties as needed
+        totalStudentsEnrolled,
+        totalAmountGenerated,
+      };
+
+      return courseDataWithStats;
+    });
+
+    res.status(200).json({ courses: courseData });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
   }
 };
