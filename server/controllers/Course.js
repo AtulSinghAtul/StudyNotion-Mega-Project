@@ -7,6 +7,7 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const CourseProgress = require("../models/CourseProgress");
 const { convertSecondsToDuration } = require("../utils/secToDuration");
 // Function to create a new course
+
 exports.createCourse = async (req, res) => {
   try {
     // Get user ID from request object
@@ -18,20 +19,20 @@ exports.createCourse = async (req, res) => {
       courseDescription,
       whatYouWillLearn,
       price,
-      tag: _tag,
+      tag,
       category,
       status,
-      instructions: _instructions,
+      instructions,
     } = req.body;
     // Get thumbnail image from request files
     const thumbnail = req.files.thumbnailImage;
 
     // Convert the tag and instructions from stringified Array to Array
-    const tag = JSON.parse(_tag);
-    const instructions = JSON.parse(_instructions);
+    // const tag = JSON.parse(_tag);
+    // const instructions = JSON.parse(_instructions);
 
-    console.log("tag", tag);
-    console.log("instructions", instructions);
+    // console.log("tag", tag);
+    // console.log("instructions", instructions);
 
     // Check if any of the required fields are missing
     if (

@@ -220,13 +220,14 @@ export default function CourseInformationForm() {
           </span>
         )}
       </div>
+
       {/* Course Category */}
       <div className="flex flex-col space-y-2">
         <label className="text-sm text-richblack-5" htmlFor="courseCategory">
           Course Category <sup className="text-pink-200">*</sup>
         </label>
         <select
-          {...register("courseCategory", { required: true })}
+          {...register("courseCategory")}
           defaultValue=""
           id="courseCategory"
           className="form-style w-full"
@@ -241,6 +242,7 @@ export default function CourseInformationForm() {
               </option>
             ))}
         </select>
+        {/* , { required: true } */}
         {errors.courseCategory && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">
             Course Category is required

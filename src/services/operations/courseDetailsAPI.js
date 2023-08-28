@@ -1,12 +1,13 @@
 import { toast } from "react-hot-toast";
 
-import { updateCompletedLectures } from "../../slices/viewCourseSlice";
+// import { updateCompletedLectures } from "../../slices/viewCourseSlice";
 // import { setLoading } from "../../slices/profileSlice";
 import { apiConnector } from "../apiconnector";
 import { courseEndpoints } from "../apis";
 
 const {
   COURSE_DETAILS_API,
+  CREATE_CATEGORIES_API,
   COURSE_CATEGORIES_API,
   GET_ALL_COURSE_API,
   CREATE_COURSE_API,
@@ -65,6 +66,29 @@ export const fetchCourseDetails = async (courseId) => {
   return result;
 };
 
+// create course categories
+export const createCategorey = async (data) => {
+  console.log(data);
+  try {
+    const response = await apiConnector("POST", CREATE_CATEGORIES_API, {
+      name: data.categoryName,
+      description: data.categoryDescription,
+    });
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Fetch Course Categories");
+    }
+    console.log(response.data);
+    console.log(response);
+
+    toast.success("COURSE_CATEGORIES fetch Successfully");
+  } catch (error) {
+    console.log("CREATE_CATEGORY_API API ERROR............", error);
+    toast.error(error.message);
+    console.log(error.message);
+  }
+};
+
 // fetching the available course categories
 export const fetchCourseCategories = async () => {
   let result = [];
@@ -75,6 +99,8 @@ export const fetchCourseCategories = async () => {
     console.log(" After api call Hello atul");
 
     console.log("COURSE_CATEGORIES_API API RESPONSE............", response);
+
+    toast.success("COURSE_CATEGORIES fetch Successfully");
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch Course Categories");
     }

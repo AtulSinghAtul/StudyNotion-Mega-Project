@@ -1,3 +1,4 @@
+// import CreateCategory from "./CreateCategory/CreateCategory";
 import RenderSteps from "./RenderSteps";
 
 export default function AddCourse() {
@@ -11,6 +12,7 @@ export default function AddCourse() {
           <div className="flex-1">
             <RenderSteps />
           </div>
+          {/* <CreateCategory /> */}
         </div>
         {/* Course Upload Tips */}
         <div className="sticky top-10 hidden max-w-[400px] flex-1 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6 xl:block">
