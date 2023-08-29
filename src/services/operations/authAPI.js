@@ -85,6 +85,8 @@ export function signUp(
 }
 
 export function login(email, password, navigate) {
+  console.log(email);
+  console.log(password);
   return async (dispatch) => {
     const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));

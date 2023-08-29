@@ -83,14 +83,14 @@ export default function CourseInformationForm() {
     // console.log(data)
 
     if (editCourse) {
-      // const currentValues = getValues()
-      // console.log("changes after editing form values:", currentValues)
-      // console.log("now course:", course)
-      // console.log("Has Form Changed:", isFormUpdated())
+      const currentValues = getValues();
+      console.log("changes after editing form values:", currentValues);
+      console.log("now course:", course);
+      console.log("Has Form Changed:", isFormUpdated());
       if (isFormUpdated()) {
         const currentValues = getValues();
         const formData = new FormData();
-        // console.log(data)
+        console.log(data);
         formData.append("courseId", course._id);
         if (currentValues.courseTitle !== course.courseName) {
           formData.append("courseName", data.courseTitle);
