@@ -14,6 +14,12 @@ exports.auth = async (req, res, next) => {
       req.body.token ||
       req.header("Authorization").replace("Bearer ", "");
 
+    console.log(req.cookies.token);
+    console.log(req.body.token);
+    // console.log(req.header("Authorization").replace("Bearer ", ""));
+
+    console.log("token------>", token);
+
     // If JWT is missing, return 401 Unauthorized response
     if (!token) {
       return res.status(401).json({ success: false, message: `Token Missing` });
@@ -21,15 +27,20 @@ exports.auth = async (req, res, next) => {
 
     try {
       // Verifying the JWT using the secret key stored in environment variables
-      const decode = await jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decode);
+
+      console.log("before decode--------->");
+      const decode = jwt.verify(token, process.env.JWT_SECRET);
+      console.log("decode----->", decode);
+
+      console.log("after decode--------->");
       // Storing the decoded JWT payload in the request object for further use
       req.user = decode;
     } catch (error) {
       // If JWT verification fails, return 401 Unauthorized response
-      return res
-        .status(401)
-        .json({ success: false, message: "token is invalid" });
+      return res.status(401).json({
+        success: false,
+        message: "token is invalid from auth controller",
+      });
     }
 
     // If JWT is valid, move on to the next middleware or request handler

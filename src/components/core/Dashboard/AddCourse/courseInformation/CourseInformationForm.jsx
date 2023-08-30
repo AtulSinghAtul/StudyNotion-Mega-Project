@@ -80,7 +80,7 @@ export default function CourseInformationForm() {
 
   //   handle next button click
   const onSubmit = async (data) => {
-    // console.log(data)
+    console.log(data);
 
     if (editCourse) {
       const currentValues = getValues();
@@ -136,18 +136,36 @@ export default function CourseInformationForm() {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("courseName", data.courseTitle);
-    formData.append("courseDescription", data.courseShortDesc);
-    formData.append("price", data.coursePrice);
-    formData.append("tag", JSON.stringify(data.courseTags));
-    formData.append("whatYouWillLearn", data.courseBenefits);
-    formData.append("category", data.courseCategory);
-    formData.append("status", COURSE_STATUS.DRAFT);
-    formData.append("instructions", JSON.stringify(data.courseRequirements));
-    formData.append("thumbnailImage", data.courseImage);
+    // const formData = new FormData();
+    // console.log(formData);
+    // formData.append("courseName", data.courseTitle);
+    // console.log(formData.get("courseName"));
+    // formData.append("courseDescription", data.courseShortDesc);
+    // formData.append("price", data.coursePrice);
+    // formData.append("tag", JSON.stringify(data.courseTags));
+    // formData.append("whatYouWillLearn", data.courseBenefits);
+    // formData.append("category", data.courseCategory);
+    // formData.append("status", COURSE_STATUS.DRAFT);
+    // formData.append("instructions", JSON.stringify(data.courseRequirements));
+    // formData.append("thumbnailImage", data.courseImage);
+    // setLoading(true);
+    // const result = await addCourseDetails(formData, token);
+
+    const formData = {
+      courseName: data.courseTitle,
+      courseDescription: data.courseShortDesc,
+      price: data.coursePrice,
+      tag: JSON.stringify(data.courseTags),
+      whatYouWillLearn: data.courseBenefits,
+      category: data.courseCategory,
+      status: COURSE_STATUS.DRAFT,
+      instructions: JSON.stringify(data.courseRequirements),
+      thumbnailImage: data.courseImage,
+    };
     setLoading(true);
     const result = await addCourseDetails(formData, token);
+
+    // console.log("From course Information page formData-->", formData);
     if (result) {
       dispatch(setStep(2));
       dispatch(setCourse(result));

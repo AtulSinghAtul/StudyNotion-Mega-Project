@@ -27,6 +27,10 @@ exports.createCourse = async (req, res) => {
     // Get thumbnail image from request files
     const thumbnail = req.files.thumbnailImage;
 
+    console.log(courseName);
+    console.log(courseDescription);
+    console.log(whatYouWillLearn);
+
     // Convert the tag and instructions from stringified Array to Array
     // const tag = JSON.parse(_tag);
     // const instructions = JSON.parse(_instructions);
@@ -35,6 +39,7 @@ exports.createCourse = async (req, res) => {
     // console.log("instructions", instructions);
 
     // Check if any of the required fields are missing
+    //! category ||
     if (
       !courseName ||
       !courseDescription ||
@@ -42,12 +47,11 @@ exports.createCourse = async (req, res) => {
       !price ||
       !tag.length ||
       !thumbnail ||
-      !category ||
       !instructions.length
     ) {
       return res.status(400).json({
         success: false,
-        message: "All Fields are Mandatory",
+        message: "All Fields are Mandatory Atul Singh",
       });
     }
     if (!status || status === undefined) {
@@ -452,7 +456,7 @@ exports.deleteCourse = async (req, res) => {
     }
 
     // Unenroll students from the course
-    const studentsEnrolled = course.studentsEnroled;
+    const studentsEnrolled = course.studentsEnrolled;
     for (const studentId of studentsEnrolled) {
       await User.findByIdAndUpdate(studentId, {
         $pull: { courses: courseId },

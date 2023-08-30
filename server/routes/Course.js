@@ -86,8 +86,6 @@ router.delete("/deleteCourse", deleteCourse);
 
 router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
 
-router.get("/showAllCategories", auth, isInstructor, showAllCategories);
-
 // ********************************************************************************************************
 //                                      Category routes (Only by Admin)
 // ********************************************************************************************************
@@ -96,6 +94,9 @@ router.get("/showAllCategories", auth, isInstructor, showAllCategories);
 router.post("/createCategory", auth, isAdmin, createCategory);
 // router.get("/showAllCategories", showAllCategories);
 router.post("/getCategoryPageDetails", categoryPageDetails);
+
+// !before in showAllCategories when write "auth" this create the problem status code 401 not found
+router.get("/showAllCategories", showAllCategories);
 
 // ********************************************************************************************************
 //                                      Rating and Review

@@ -1,20 +1,22 @@
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+// const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = "http://localhost:4000/api/v1/auth";
 
 console.log(BASE_URL);
 
 // AUTH ENDPOINTS
 export const endpoints = {
-  SENDOTP_API: BASE_URL + "/auth/sendotp",
-  SIGNUP_API: BASE_URL + "/auth/signup",
-  LOGIN_API: BASE_URL + "/auth/login",
-  RESETPASSTOKEN_API: BASE_URL + "/auth/reset-password-token",
-  RESETPASSWORD_API: BASE_URL + "/auth/reset-password",
+  SENDOTP_API: BASE_URL + "/sendotp",
+  SIGNUP_API: BASE_URL + "/signup",
+  LOGIN_API: BASE_URL + "/login",
+  RESETPASSTOKEN_API: BASE_URL + "/reset-password-token",
+  RESETPASSWORD_API: BASE_URL + "/reset-password",
 };
 
 // PROFILE ENDPOINTS
 export const profileEndpoints = {
   GET_USER_DETAILS_API: BASE_URL + "/profile/getUserDetails",
   GET_USER_ENROLLED_COURSES_API: BASE_URL + "/profile/getEnrolledCourses",
+  // "GET_INSTRUCTOR_DATA_API":
 };
 
 // STUDENTS ENDPOINTS
@@ -32,9 +34,9 @@ export const courseEndpoints = {
 
   EDIT_COURSE_API: BASE_URL + "/course/editCourse",
 
-  COURSE_CATEGORIES_API: BASE_URL + "/auth/course/showAllCategories",
+  COURSE_CATEGORIES_API: BASE_URL + "/course/showAllCategories",
 
-  CREATE_COURSE_API: BASE_URL + "/auth/course/createCourse",
+  CREATE_COURSE_API: BASE_URL + "/course/createCourse",
 
   CREATE_SECTION_API: BASE_URL + "/course/addSection",
 

@@ -15,6 +15,8 @@ const {
 } = endpoints;
 
 export function sendOtp(email, navigate) {
+  console.log("before", email);
+  console.log("before", SENDOTP_API);
   return async (dispatch) => {
     const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));
@@ -24,6 +26,8 @@ export function sendOtp(email, navigate) {
         checkUserPresent: true,
       });
       console.log("SENDOTP API RESPONSE............", response);
+      console.log("after", email);
+      console.log("after", SENDOTP_API);
 
       console.log(response.data.success);
 

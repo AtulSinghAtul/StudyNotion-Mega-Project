@@ -115,15 +115,29 @@ export const fetchCourseCategories = async () => {
 
 // add the course details
 export const addCourseDetails = async (data, token) => {
-  console.log("addCourseDetails data -->>", data.courseDescription);
+  // console.log("addCourseDetails data -->>", data.get("courseName"));
   let result = null;
   const toastId = toast.loading("Loading...");
+
+  console.log("form data--->", data);
+  console.log("token----.", token);
+
+  // if (
+  //   "http://localhost:4000/api/v1/auth/course/createCourse" ===
+  //   CREATE_COURSE_API
+  // ) {
+  //   console.log(true);
+  // } else {
+  //   console.log("not match url");
+  // }
+
   try {
     console.log(" Before api call CREATE_COURSE_API");
     const response = await apiConnector("POST", CREATE_COURSE_API, data, {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     });
+
     console.log(" Before api call CREATE_COURSE_API");
     console.log("CREATE COURSE API RESPONSE............", response);
     if (!response?.data?.success) {
@@ -295,6 +309,8 @@ export const deleteSubSection = async (data, token) => {
 
 // fetching all courses under a specific instructor
 export const fetchInstructorCourses = async (token) => {
+  console.log("token from course detailes api------>313", token);
+
   let result = [];
   const toastId = toast.loading("Loading...");
   try {
