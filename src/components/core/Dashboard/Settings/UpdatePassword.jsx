@@ -1,33 +1,33 @@
-import React, { useState } from "react"
-import { useForm } from "react-hook-form"
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { changePassword } from "../../../../services/operations/SettingsAPI"
-import IconBtn from "../../../common/IconBtn"
+import { changePassword } from "../../../../services/operations/SettingsAPI";
+import IconBtn from "../../../common/IconBtn";
 
 export default function UpdatePassword() {
-  const { token } = useSelector((state) => state.auth)
-  const navigate = useNavigate()
+  const { token } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-  const [showOldPassword, setShowOldPassword] = useState(false)
-  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
   const submitPasswordForm = async (data) => {
-    // console.log("password Data - ", data)
+    console.log("password Data UpdatePassword.jsx ----> ", data);
     try {
-      await changePassword(token, data)
+      await changePassword(token, data);
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+      console.log("ERROR MESSAGE - ", error.message);
     }
-  }
+  };
 
   return (
     <>
@@ -36,7 +36,7 @@ export default function UpdatePassword() {
           <h2 className="text-lg font-semibold text-richblack-5">Password</h2>
           <div className="flex flex-col gap-5 lg:flex-row">
             <div className="relative flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="oldPassword" className="lable-style">
+              <label htmlFor="oldPassword" className="lable-style text-white">
                 Current Password
               </label>
               <input
@@ -63,8 +63,9 @@ export default function UpdatePassword() {
                 </span>
               )}
             </div>
+            {/* ********* Enter New Password ************* */}
             <div className="relative flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="newPassword" className="lable-style">
+              <label htmlFor="newPassword" className="lable-style text-white">
                 New Password
               </label>
               <input
@@ -91,12 +92,42 @@ export default function UpdatePassword() {
                 </span>
               )}
             </div>
+
+            {/* ********* Enter Confirm New Password ************* */}
+            <div className="relative flex flex-col gap-2 lg:w-[48%]">
+              <label htmlFor="newPassword" className="lable-style text-white">
+                Confirm New Password
+              </label>
+              <input
+                type={showNewPassword ? "text" : "password"}
+                name="confirmNewPassword"
+                id="confirmNewPassword"
+                placeholder="Enter Confirm New Password"
+                className="form-style"
+                {...register("confirmNewPassword", { required: true })}
+              />
+              <span
+                onClick={() => setShowNewPassword((prev) => !prev)}
+                className="absolute right-3 top-[38px] z-[10] cursor-pointer"
+              >
+                {showNewPassword ? (
+                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+                ) : (
+                  <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                )}
+              </span>
+              {errors.confirmNewPassword && (
+                <span className="-mt-1 text-[12px] text-yellow-100">
+                  Please enter your Confirm New Password.
+                </span>
+              )}
+            </div>
           </div>
         </div>
         <div className="flex justify-end gap-2">
           <button
             onClick={() => {
-              navigate("/dashboard/my-profile")
+              navigate("/dashboard/my-profile");
             }}
             className="cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-semibold text-richblack-50"
           >
@@ -106,5 +137,5 @@ export default function UpdatePassword() {
         </div>
       </form>
     </>
-  )
+  );
 }

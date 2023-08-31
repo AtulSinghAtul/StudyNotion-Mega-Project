@@ -271,10 +271,16 @@ exports.changePassword = async (req, res) => {
     // Get old password, new password, and confirm new password from req.body
     const { oldPassword, newPassword, confirmNewPassword } = req.body;
 
+    console.log("old password from controller --->", oldPassword);
+    console.log("new password from controller --->", newPassword);
+    console.log("confirmNewPassword from controller --->", confirmNewPassword);
+
+    console.log("isPasswordMatch--->", oldPassword);
+    console.log("isPasswordMatch--->", userDetails?.password);
     // Validate old password
     const isPasswordMatch = await bcrypt.compare(
       oldPassword,
-      userDetails.password
+      userDetails?.password
     );
 
     if (!isPasswordMatch) {
@@ -310,7 +316,7 @@ exports.changePassword = async (req, res) => {
           `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
         )
       );
-      console.log("Email sent successfully:", emailResponse.response);
+      console.log("Email sent successfully:", emailResponse?.response);
     } catch (error) {
       // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error
       console.error("Error occurred while sending email:", error);

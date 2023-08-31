@@ -28,6 +28,8 @@ function CourseDetails() {
   const { courseId } = useParams();
   // console.log(`course id: ${courseId}`)
 
+  console.log("useParams------->>>>>>", courseId);
+
   // Declear a state to save the course details
   const [response, setResponse] = useState(null);
   const [confirmationModal, setConfirmationModal] = useState(null);
@@ -36,15 +38,13 @@ function CourseDetails() {
     (async () => {
       try {
         const res = await fetchCourseDetails(courseId);
-        // console.log("course details res: ", res)
+
         setResponse(res);
       } catch (error) {
         console.log("Could not fetch Course Details");
       }
     })();
   }, [courseId]);
-
-  // console.log("response: ", response)
 
   // Calculating Avg Review count
   const [avgReviewCount, setAvgReviewCount] = useState(0);
@@ -101,8 +101,18 @@ function CourseDetails() {
     createdAt,
   } = response.data?.courseDetails;
 
+  // console.log(
+  //   "response.data?.courseDetails--&&&&&&&&&&&&&&&7-->",
+  //   response.data?.courseDetails
+  // );
+
+  // console.log(" _id: course_id,-----kkkkk--..", course_id);
+
   const handleBuyCourse = () => {
     if (token) {
+      console.log("handleBuyCourse ---> token", token);
+      console.log("handleBuyCourse ---> courseId", [courseId]);
+      console.log("handleBuyCourse ---> user", user);
       buyCourse(token, [courseId], user, navigate, dispatch);
       return;
     }
@@ -174,10 +184,15 @@ function CourseDetails() {
               <p className="space-x-3 pb-4 text-3xl font-semibold text-richblack-5">
                 Rs. {price}
               </p>
-              <button className="yellowButton" onClick={handleBuyCourse}>
+              <button
+                className="yellowButton text-richblack-5 bg-richblack-600 px-3 py-1 w-fit rounded-md"
+                onClick={handleBuyCourse}
+              >
                 Buy Now
               </button>
-              <button className="blackButton">Add to Cart</button>
+              <button className="blackButton px-3 py-1 w-fit rounded-md text-richblack-5 bg-richblack-600">
+                Add to Cart
+              </button>
             </div>
           </div>
           {/* Courses Card */}
