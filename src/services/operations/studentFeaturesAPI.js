@@ -77,7 +77,7 @@ export async function buyCourse(
     console.log(process.env);
     const options = {
       // key: process?.env?.RAZORPAY_KEY,
-      key: " rzp_test_Qq1R28RDozLWGC",
+      key: "rzp_test_Qq1R28RDozLWGC",
       currency: orderResponse.data.data?.currency,
       amount: `${orderResponse.data.data?.amount}`,
       order_id: orderResponse.data.data?.id,
@@ -164,8 +164,8 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
       Authorization: `Bearer ${token}`,
     });
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
+    if (!response?.data?.success) {
+      throw new Error(response?.data?.message);
     }
     toast.success("payment Successful, ypou are addded to the course");
     navigate("/dashboard/enrolled-courses");

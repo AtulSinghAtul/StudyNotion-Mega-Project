@@ -68,7 +68,7 @@ export const fetchCourseDetails = async (courseId) => {
 
 // create course categories
 export const createCategorey = async (data) => {
-  console.log(data);
+  console.log("createCategorey ------->", data);
   try {
     const response = await apiConnector("POST", CREATE_CATEGORIES_API, {
       name: data.categoryName,
@@ -419,9 +419,11 @@ export const createRating = async (data, token) => {
   const toastId = toast.loading("Loading...");
   let success = false;
   try {
+    console.log("Before createRating-------->>>", data, "token--->", token);
     const response = await apiConnector("POST", CREATE_RATING_API, data, {
       Authorization: `Bearer ${token}`,
     });
+    console.log("After createRating-------->>>", data, "token--->", token);
     console.log("CREATE RATING API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Create Rating");
