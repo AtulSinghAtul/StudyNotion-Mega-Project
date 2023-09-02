@@ -61,6 +61,8 @@ export async function getUserEnrolledCourses(token) {
       throw new Error(response.data.message);
     }
     result = response.data.data;
+
+    console.log("result enrolled courses api---->>", result);
   } catch (error) {
     console.log("GET_USER_ENROLLED_COURSES_API API ERROR............", error);
     toast.error("Could Not Get Enrolled Courses");

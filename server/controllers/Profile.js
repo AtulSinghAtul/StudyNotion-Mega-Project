@@ -159,6 +159,8 @@ exports.getEnrolledCourses = async (req, res) => {
         },
       })
       .exec();
+
+    console.log("getEnrolledCourses->>>>>>>>", userDetails);
     userDetails = userDetails.toObject();
     var SubsectionLength = 0;
     for (var i = 0; i < userDetails.courses.length; i++) {
@@ -216,9 +218,21 @@ exports.instructorDashboard = async (req, res) => {
   try {
     const courseDetails = await Course.find({ instructor: req.user.id });
 
+    console.log(
+      "courseDetails------->>>",
+      courseDetails,
+      "the end ----------888"
+    );
+
     const courseData = courseDetails.map((course) => {
+      console.log("course ---->>", course);
       const totalStudentsEnrolled = course.studentsEnrolled.length;
+      // const totalStudentsEnrolled = 1;
+      console.log("totalStudentsEnrolled--->", totalStudentsEnrolled);
+
       const totalAmountGenerated = totalStudentsEnrolled * course.price;
+      //course.price
+      console.log("totalAmountGenerated--->", totalAmountGenerated);
 
       // Create a new object with the additional fields
       const courseDataWithStats = {
