@@ -4,8 +4,10 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { fetchInstructorCourses } from "../../../services/operations/courseDetailsAPI";
-import IconBtn from "../../common/IconBtn";
+// import IconBtn from "../../common/IconBtn";
+
 import CoursesTable from "./InstructorCourses/CoursesTable";
+import IconBtn from "../../common/iconBtn";
 
 export default function MyCourses() {
   const { token } = useSelector((state) => state.auth);
