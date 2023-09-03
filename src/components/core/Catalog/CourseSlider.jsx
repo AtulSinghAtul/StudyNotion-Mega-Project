@@ -7,7 +7,7 @@ import "swiper/css/pagination";
 import { FreeMode, Pagination } from "swiper";
 // import {  } from "swiper/modules";
 
-import CourseCard from "./Course_Card";
+import CourseCard from "./CourseCard";
 
 const CourseSlider = ({ Courses }) => {
   return (

@@ -36,10 +36,7 @@ export default function Instructor() {
 
   console.log("instructorData useState------>", instructorData);
 
-  const totalAmount = instructorData?.reduce((acc, curr) => {
-    // return console.log("acc---->", acc, "curr---->", curr);
-    return acc + curr.totalAmountGenerated, 0;
-  });
+  const totalAmount = instructorData?.reduce((acc, curr) => acc + curr.totalAmountGenerated,0);
   // console.log("instructorData?.reduce()-----", instructorData?.reduce());
 
   console.log("totalAmountGenerated------>", totalAmount);
