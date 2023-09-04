@@ -7,7 +7,11 @@ import { fetchInstructorCourses } from "../../../services/operations/courseDetai
 // import IconBtn from "../../common/IconBtn";
 
 import CoursesTable from "./InstructorCourses/CoursesTable";
+<<<<<<< HEAD
 import IconBtn from "../../common/iconBtn";
+=======
+import IconBtn from "../../common/IconBtn";
+>>>>>>> a9d5d18 (adding again study notion mega project url)
 
 export default function MyCourses() {
   const { token } = useSelector((state) => state.auth);
